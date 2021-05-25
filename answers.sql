@@ -39,3 +39,29 @@ MIN(quantity) AS "Min Quantity" FROM order_details GROUP BY order_id;
 
 -- 13. Find the CustomerID that placed order 10290 (orders table)
 SELECT customer_id FROM orders WHERE order_id=10290;
+
+-- 14. Do an inner join, left join, right join on orders and customers tables. 
+-- (These are three separate queries, one for each type of join.)
+SELECT * FROM orders INNER JOIN customers ON orders.customer_id = customers.customer_id;
+
+SELECT * FROM orders LEFT JOIN customers ON orders.customer_id = customers.customer_id;
+
+SELECT * FROM orders RIGHT JOIN customers ON orders.customer_id = customers.customer_id;
+
+-- 15. Use a join to get the ship city and ship country of all the orders which are associated
+--     with an employee who is in London.
+SELECT ship_city, ship_country FROM orders JOIN employees ON orders.employee_id = employees.employee_id
+WHERE employees.city='London';
+
+-- 16. Use a join to get the ship name of all orders that include a discontinued product. (See
+--     orders, order_details, and products. 1 means discontinued.)
+SELECT ship_name FROM orders JOIN order_details ON orders.order_id = order_details.order_id
+JOIN products ON order_details.product_id = products.product_id
+WHERE products.discontinued = 1;
+
+-- 17. Get first names of all employees who report to no one.
+SELECT first_name FROM employees WHERE reports_to IS NULL;
+
+-- 18. Get first names of all employees who report to Andrew.
+SELECT subordinate.first_name FROM employees AS subordinate JOIN employees as manager ON subordinate.reports_to = manager.employee_id;
+
